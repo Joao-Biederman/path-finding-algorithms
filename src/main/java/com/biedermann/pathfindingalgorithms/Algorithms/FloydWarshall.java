@@ -1,28 +1,32 @@
 package com.biedermann.pathfindingalgorithms.Algorithms;
 
 public class FloydWarshall {
-    private double adjacencyMatrix[][];
+    private int adjacencyMatrix[][];
 
-    public FloydWarshall(double[][] adjacencyMatrix) { setAdjacencyMatrix(adjacencyMatrix); }
+    public FloydWarshall(int[][] adjacencyMatrix) { setAdjacencyMatrix(adjacencyMatrix); }
 
-    public void setAdjacencyMatrix(double[][] adjacencyMatrix) {
+    public void setAdjacencyMatrix(int[][] adjacencyMatrix) {
         this.adjacencyMatrix = adjacencyMatrix;
     }
 
     public void printAdjacencyMatrix() {
         for (int i = 0; i < adjacencyMatrix.length; i++) {
             for (int j = 0; j < adjacencyMatrix[i].length; j++) {
-                System.out.print("| " + (adjacencyMatrix[i][j] == Double.MAX_VALUE ? "INF" : adjacencyMatrix[i][j] ) + " ");
+                if (adjacencyMatrix[i][j] != Integer.MAX_VALUE) {
+                    System.out.printf("| %3d ", adjacencyMatrix[i][j]);
+                } else {
+                    System.out.print("| INF ");
+                }
             }
             System.out.println();
         }
     }
 
-    public void setDistance(int i, int j, double distance) {
+    public void setDistance(int i, int j, int distance) {
         adjacencyMatrix[i][j] = distance;
     }
 
-    public double getDistance(int i, int j) {
+    public int getDistance(int i, int j) {
         return adjacencyMatrix[i][j];
     }
 
@@ -30,7 +34,7 @@ public class FloydWarshall {
         for (int k = 0; k < adjacencyMatrix.length; k++) {
             for (int i = 0; i < adjacencyMatrix.length; i++) {
                 for (int j = 0; j < adjacencyMatrix.length; j++) {
-                    double distance = adjacencyMatrix[i][k] + adjacencyMatrix[k][j];
+                    int distance = adjacencyMatrix[i][k] + adjacencyMatrix[k][j];
                     if (distance < getDistance(i, j)) {
                         setDistance(i, j, distance);
                     }

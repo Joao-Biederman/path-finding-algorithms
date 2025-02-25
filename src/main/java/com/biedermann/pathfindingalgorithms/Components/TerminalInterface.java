@@ -1,24 +1,25 @@
 package com.biedermann.pathfindingalgorithms.Components;
 
 import com.biedermann.pathfindingalgorithms.Algorithms.FloydWarshall;
+import com.biedermann.pathfindingalgorithms.Algorithms.Johnson;
 import com.biedermann.pathfindingalgorithms.Services.MatrixReader;
-import lombok.Setter;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import java.util.Scanner;
 
 @Component
 public class TerminalInterface implements CommandLineRunner {
-    private FloydWarshall floydWarshall = new FloydWarshall(new double[0][0]);
-    private double[][] adjacencyMatrix = new double[0][0];
+    private FloydWarshall floydWarshall = new FloydWarshall(new int[0][0]);
+    private Johnson johnson = new Johnson((new int[0][0]));
+    private int[][] adjacencyMatrix = new int[0][0];
     private final Scanner scanner = new Scanner(System.in);
     private final MatrixReader matrixReader = new MatrixReader();
 
-    public double[][] getAdjacencyMatrix() {
+    public int[][] getAdjacencyMatrix() {
         return adjacencyMatrix;
     }
 
-    public void setAdjacencyMatrix(double[][] adjacencyMatrix) {
+    public void setAdjacencyMatrix(int[][] adjacencyMatrix) {
         this.adjacencyMatrix = adjacencyMatrix;
     }
 
@@ -43,6 +44,8 @@ public class TerminalInterface implements CommandLineRunner {
             System.out.println("  1  - Read Matrix");
             System.out.println("  2  - Calculate Floyd-Warshall's distance");
             System.out.println("  3  - Print Floyd-Warshall's adjacency matrix");
+            System.out.println("  4  - Calculate Johnson's distance");
+            System.out.println("  5  - Print Johnson's adjacency matrix");
             System.out.println("  6  - Exit");
 
             System.out.print("Option: ");
@@ -68,6 +71,8 @@ public class TerminalInterface implements CommandLineRunner {
                         if (error == 1) {
                             floydWarshall.printAdjacencyMatrix();
                             System.out.println("A negative cycle has been identified on this graph, Floyd-Warshall could not be calculated");
+                            System.out.println("Press enter to continue.");
+                            scanner.nextLine();
                             break;
                         }
                         int[] index = readIndexes();
@@ -77,7 +82,7 @@ public class TerminalInterface implements CommandLineRunner {
                             index = readIndexes();
                         }
 
-                        System.out.println("Distance between nodes " + index[0] + " and " + index[1] + floydWarshall.getDistance(index[0], index[1]));
+                        System.out.println("Distance between nodes " + index[0] + " and " + index[1] + ": " + floydWarshall.getDistance(index[0], index[1]));
                     } else {
                         System.out.println("Adjacency matrix is empty.");
                     }
@@ -89,8 +94,50 @@ public class TerminalInterface implements CommandLineRunner {
                         int error = floydWarshall.iterate();
                         if (error == 1) {
                             System.out.println("There is a negative cycle on that graph, Floyd-Warshall could not be calculated");
+                            System.out.println("Press enter to continue.");
+                            scanner.nextLine();
                         } else {
                             floydWarshall.printAdjacencyMatrix();
+                        }
+                    } else {
+                        System.out.println("Adjacency matrix is empty.");
+                    }
+                }
+
+                case 4 -> {
+                    if (adjacencyMatrix.length != 0) {
+                        johnson.setAdjacencyMatrix(adjacencyMatrix);
+                        int error = johnson.iterate();
+                        if (error == 1) {
+                            johnson.printAdjacencyMatrix();
+                            System.out.println("A negative cycle has been identified on this graph, Floyd-Warshall could not be calculated");
+                            System.out.println("Press enter to continue.");
+                            scanner.nextLine();
+                            break;
+                        }
+                        int[] index = readIndexes();
+
+                        while (index[0] < 0 || index[1] < 0 || index[0] >= adjacencyMatrix.length || index[1] >= adjacencyMatrix[0].length) {
+                            System.out.println("Onde or more of the indexes informed exceeded the limits of the graph, please inform numbers between " + 0 + " and " + adjacencyMatrix.length);
+                            index = readIndexes();
+                        }
+
+                        System.out.println("Distance between nodes " + index[0] + " and " + index[1] + johnson.getDistance(index[0], index[1]));
+                    } else {
+                        System.out.println("Adjacency matrix is empty.");
+                    }
+                }
+
+                case 5 -> {
+                    if (adjacencyMatrix.length != 0) {
+                        johnson.setAdjacencyMatrix(adjacencyMatrix);
+                        int error = johnson.iterate();
+                        if (error == 1) {
+                            System.out.println("There is a negative cycle on that graph, Johnson could not be calculated");
+                            System.out.println("Press enter to continue.");
+                            scanner.nextLine();
+                        } else {
+                            johnson.printAdjacencyMatrix();
                         }
                     } else {
                         System.out.println("Adjacency matrix is empty.");
