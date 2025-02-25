@@ -19,6 +19,19 @@ public class TerminalInterface implements CommandLineRunner {
         return adjacencyMatrix;
     }
 
+    public void printAdjacencyMatrix() {
+        for (int i = 0; i < adjacencyMatrix.length; i++) {
+            for (int j = 0; j < adjacencyMatrix[i].length; j++) {
+                if (adjacencyMatrix[i][j] != Integer.MAX_VALUE) {
+                    System.out.printf("| %3d ", adjacencyMatrix[i][j]);
+                } else {
+                    System.out.print("| INF ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
     public void setAdjacencyMatrix(int[][] adjacencyMatrix) {
         this.adjacencyMatrix = adjacencyMatrix;
     }
@@ -46,7 +59,8 @@ public class TerminalInterface implements CommandLineRunner {
             System.out.println("  3  - Print Floyd-Warshall's adjacency matrix");
             System.out.println("  4  - Calculate Johnson's distance");
             System.out.println("  5  - Print Johnson's adjacency matrix");
-            System.out.println("  6  - Exit");
+            System.out.println("  6  - Print adjacency matrix");
+            System.out.println("  7  - Exit");
 
             System.out.print("Option: ");
             int option = scanner.nextInt();
@@ -145,6 +159,10 @@ public class TerminalInterface implements CommandLineRunner {
                 }
 
                 case 6 -> {
+                    this.printAdjacencyMatrix();
+                }
+
+                case 7 -> {
                     return;
                 }
             }
