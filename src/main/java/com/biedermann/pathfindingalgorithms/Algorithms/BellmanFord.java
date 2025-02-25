@@ -5,15 +5,18 @@ import java.util.Arrays;
 public class BellmanFord {
     static int[] bellmanFord(int[][] adjacencyMatrix, int source) {
         int[] distance = new int[adjacencyMatrix.length];
-        Arrays.fill(distance, Integer.MAX_VALUE);
+        for (int i = 0; i < distance.length; i++) {
+            distance[i] = Integer.MAX_VALUE;
+        }
         distance[source] = 0;
 
-        for (int k = 0; k < adjacencyMatrix.length-1; k++) {
+        for (int k = 0; k < adjacencyMatrix.length - 1; k++) {
             for (int i = 0; i < adjacencyMatrix.length; i++) {
-                for (int j = 0; j < adjacencyMatrix[i].length; j++) {
-                    if (adjacencyMatrix[i][j] != Integer.MAX_VALUE && distance[i] != Integer.MAX_VALUE) {
-                        if (distance[i] + adjacencyMatrix[i][j] < distance[j]) {
-                            distance[j] = distance[i] + adjacencyMatrix[i][j];
+                for (int j = 0; j < adjacencyMatrix.length; j++) {
+                    if (distance[i] != Integer.MAX_VALUE && adjacencyMatrix[i][j] != Integer.MAX_VALUE) {
+                        int sumDistance = distance[i] + adjacencyMatrix[i][j];
+                        if (sumDistance < distance[j]) {
+                            distance[j] = sumDistance;
                         }
                     }
                 }
@@ -22,8 +25,9 @@ public class BellmanFord {
 
         for (int i = 0; i < adjacencyMatrix.length; i++) {
             for (int j = 0; j < adjacencyMatrix[i].length; j++) {
-                if (adjacencyMatrix[i][j] != Integer.MAX_VALUE && distance[i] != Integer.MAX_VALUE) {
-                    if (distance[i] + adjacencyMatrix[i][j] < distance[j]) {
+                if (distance[i] != Integer.MAX_VALUE && adjacencyMatrix[i][j] != Integer.MAX_VALUE) {
+                    int sumDistance = distance[i] + adjacencyMatrix[i][j];
+                    if (sumDistance < distance[j]) {
                         return null;
                     }
                 }

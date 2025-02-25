@@ -27,7 +27,7 @@ public class Johnson {
     }
 
     public int getDistance(int i, int j) {
-        return adjacencyMatrix[i][j];
+        return this.adjacencyMatrix[i][j];
     }
 
     public int iterate() {
@@ -37,10 +37,10 @@ public class Johnson {
             for (int j = 0; j < adjacencyMatrix[i].length; j++) {
                 newAdjacencyMatrix[i][j] = this.adjacencyMatrix[i][j];
             }
-            newAdjacencyMatrix[this.adjacencyMatrix.length][i] = 0;
+            newAdjacencyMatrix[this.adjacencyMatrix.length][i] = Integer.MAX_VALUE;
         }
 
-        int[] h = BellmanFord.bellmanFord(newAdjacencyMatrix, newAdjacencyMatrix.length-1);
+        int[] h = BellmanFord.bellmanFord(newAdjacencyMatrix, (newAdjacencyMatrix.length-1));
         if (h == null) {
             return 1;
         }
