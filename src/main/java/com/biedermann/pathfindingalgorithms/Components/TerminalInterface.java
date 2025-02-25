@@ -38,7 +38,7 @@ public class TerminalInterface implements CommandLineRunner {
 
     public int[] readIndexes() {
         int[] indexes = new int[2];
-        System.out.println("Insert nodes to Calculate Floyd-Warshall's distance: ");
+        System.out.println("Insert nodes to calculate distance: ");
         System.out.print("1: ");
         indexes[0] = scanner.nextInt();
         scanner.nextLine();
@@ -136,7 +136,7 @@ public class TerminalInterface implements CommandLineRunner {
                             index = readIndexes();
                         }
 
-                        System.out.println("Distance between nodes " + index[0] + " and " + index[1] + johnson.getDistance(index[0], index[1]));
+                        System.out.println("Distance between nodes " + index[0] + " and " + index[1] + ": " + johnson.getDistance(index[0], index[1]));
                     } else {
                         System.out.println("Adjacency matrix is empty.");
                     }
