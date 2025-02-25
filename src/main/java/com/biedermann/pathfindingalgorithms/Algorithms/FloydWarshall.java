@@ -34,15 +34,11 @@ public class FloydWarshall {
         for (int k = 0; k < adjacencyMatrix.length; k++) {
             for (int i = 0; i < adjacencyMatrix.length; i++) {
                 for (int j = 0; j < adjacencyMatrix.length; j++) {
-//                    System.out.println(i + " " + j + " " + k);
                     int distIK = getDistance(i, k);
                     int distKJ = getDistance(k, j);
 
                     int distance = (distIK == Integer.MAX_VALUE || distKJ == Integer.MAX_VALUE) ? Integer.MAX_VALUE : distIK + distKJ;
-//                    System.out.println("Distance " + (distance == Integer.MAX_VALUE ? "INF" : distance) + " = " + (distIK == Integer.MAX_VALUE ? "INF" : distIK) + " + " + (distKJ == Integer.MAX_VALUE ? "INF" : distKJ));
-//                    System.out.println("Distance " + (distance == Integer.MAX_VALUE ? "INF" : distance) + " || " + (getDistance(i, j) == Integer.MAX_VALUE ? "INF" : getDistance(i, j)));
                     if (distance < getDistance(i, j)) {
-//                        System.out.println(i + " " + j + ": " + (distance == Integer.MAX_VALUE ? "INF" : distance));
                         setDistance(i, j, distance);
                     }
                 }
