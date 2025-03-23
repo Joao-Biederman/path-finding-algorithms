@@ -1,14 +1,11 @@
-package com.biedermann.pathfindingalgorithms.Components;
+package utils;
 
-import com.biedermann.pathfindingalgorithms.Algorithms.FloydWarshall;
-import com.biedermann.pathfindingalgorithms.Algorithms.Johnson;
-import com.biedermann.pathfindingalgorithms.Services.MatrixReader;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
+import algorithms.*;
+
+import java.io.File;
 import java.util.Scanner;
 
-@Component
-public class TerminalInterface implements CommandLineRunner {
+public class TerminalInterface{
     private FloydWarshall floydWarshall = new FloydWarshall(new int[0][0]);
     private Johnson johnson = new Johnson((new int[0][0]));
     private int[][] adjacencyMatrix = new int[0][0];
@@ -50,7 +47,6 @@ public class TerminalInterface implements CommandLineRunner {
         return indexes;
     }
 
-    @Override
     public void run(String... args) throws Exception {
         while (true) {
             System.out.println("\nChose an option:");
@@ -71,7 +67,8 @@ public class TerminalInterface implements CommandLineRunner {
                     try {
                         System.out.println("Write the file path: ");
                         String path = scanner.nextLine();
-                        setAdjacencyMatrix(matrixReader.readAdjacencyMatrix(path));
+                        File file = new File(path);
+                        setAdjacencyMatrix(matrixReader.readAdjacencyMatrix(file));
                         System.out.println("Adjacency matrix has been read.");
                     } catch (Exception e) {
                         System.out.println("An error occurred while reading the file: " + e.getMessage());

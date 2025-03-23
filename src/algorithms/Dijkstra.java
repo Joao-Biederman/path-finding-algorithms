@@ -1,10 +1,10 @@
-package com.biedermann.pathfindingalgorithms.Algorithms;
+package algorithms;
 
 import java.util.Arrays;
 import java.util.PriorityQueue;
 
 public class Dijkstra {
-    static int[] Dijkstra(int[][] adjacencyMatrix, int source) {
+    static int[] runDijkstra(int[][] adjacencyMatrix, int source) {
         int[] distance = new int[adjacencyMatrix.length];
         boolean[] visited = new boolean[adjacencyMatrix.length];
         Arrays.fill(distance, Integer.MAX_VALUE);

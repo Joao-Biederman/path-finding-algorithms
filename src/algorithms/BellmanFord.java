@@ -1,9 +1,7 @@
-package com.biedermann.pathfindingalgorithms.Algorithms;
-
-import java.util.Arrays;
+package algorithms;
 
 public class BellmanFord {
-    static int[] bellmanFord(int[][] adjacencyMatrix, int source) {
+    static int[] runBellmanFord(int[][] adjacencyMatrix, int source) {
         int[] distance = new int[adjacencyMatrix.length];
         for (int i = 0; i < distance.length; i++) {
             distance[i] = Integer.MAX_VALUE;

@@ -1,4 +1,4 @@
-package com.biedermann.pathfindingalgorithms.Algorithms;
+package algorithms;
 
 public class FloydWarshall {
     private int adjacencyMatrix[][];

@@ -1,6 +1,4 @@
-package com.biedermann.pathfindingalgorithms.Algorithms;
-
-import com.biedermann.pathfindingalgorithms.Algorithms.BellmanFord;
+package algorithms;
 
 public class Johnson {
     private int adjacencyMatrix[][];
@@ -40,7 +38,7 @@ public class Johnson {
             newAdjacencyMatrix[this.adjacencyMatrix.length][i] = Integer.MAX_VALUE;
         }
 
-        int[] h = BellmanFord.bellmanFord(newAdjacencyMatrix, (newAdjacencyMatrix.length-1));
+        int[] h = BellmanFord.runBellmanFord(newAdjacencyMatrix, (newAdjacencyMatrix.length-1));
         if (h == null) {
             return 1;
         }
@@ -58,7 +56,7 @@ public class Johnson {
 
         int[][] distance = new int[this.adjacencyMatrix.length][this.adjacencyMatrix.length];
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {
-            distance[i] = Dijkstra.Dijkstra(reweightedGraph, i);
+            distance[i] = Dijkstra.runDijkstra(reweightedGraph, i);
         }
 
         for (int i = 0; i < distance.length; i++) {
