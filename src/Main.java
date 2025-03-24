@@ -3,14 +3,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import utils.MatrixReader;
 import algorithms.*;
 
 public class Main {
-    private static final int EXECUTIONS = 6;
+    private static final int EXECUTIONS = 11;
     public static void main(String[] args) {
-        int[] file_sizes = {1000, 10000};
+        int[] file_sizes = {10, 15, 20, 25, 50, 100, 500};
         char[] method = {'F', 'J'};
 
         for (int run = 0; run < method.length; run++) {
@@ -18,18 +19,17 @@ public class Main {
                 FloydWarshall floydWarshall = new FloydWarshall(new int[0][0]);
                 Johnson johnson = new Johnson((new int[0][0]));
                 String file_name = "graph_" + String.valueOf(file_sizes[folder_index]);
-                File folder = new File("./"+file_name);
+                File folder = new File("../inputs/"+file_name);
                 File[] files = folder.listFiles();
                 String algorithm = (method[run] == 'F' ? "Floyd_Warshal" : "Johnson") + "_";
                 try {
-                    FileWriter csvWriter = new FileWriter(algorithm + file_name + "_execution_times.csv");
+                    FileWriter csvWriter = new FileWriter("../results/" + algorithm + file_name + "_execution_times.csv");
                     MatrixReader matrixReader = new MatrixReader();
-                    System.out.println("teste");
                     
                     @SuppressWarnings("unchecked")
                     ArrayList<Long>[] times = new ArrayList[EXECUTIONS];
                     for (int i = 0; i < files.length; i++) {
-                        times[i] = new ArrayList<>();  // Initialize each element as an empty ArrayList
+                        times[i] = new ArrayList<>();
                     }
                     
                     csvWriter.append("File");
@@ -41,6 +41,7 @@ public class Main {
                     int i = 0;
                     for (File file : files) {
                         List<Long> time = new ArrayList<>();
+                        System.out.println(file.getName());
                         for (int j = 0; j < EXECUTIONS; j++) {
                             int[][] adjacencyMatrix;
                             
@@ -52,34 +53,38 @@ public class Main {
                             
                             long startTime;
                             if (method[run] == 'F') {
-                                startTime = System.nanoTime();
                                 floydWarshall.setAdjacencyMatrix(adjacencyMatrix);
+                                startTime = System.nanoTime();
                                 floydWarshall.iterate();
                             } else {
-                                startTime = System.nanoTime();
                                 johnson.setAdjacencyMatrix(adjacencyMatrix);
+                                startTime = System.nanoTime();
                                 johnson.iterate();
                             }
                             
                             long endTime = System.nanoTime();
                             long elapsedTime = endTime - startTime;
                             time.add(elapsedTime);
-                            System.out.println(time);                            
                         }
                         
                         times[i].addAll(time);
                         
                         csvWriter.append(file.getName()+", ");
-                        System.out.println("wrote filename:" + file.getName());
                         for (int j = 1; j < EXECUTIONS; j++) {
-                            System.out.println("wrote Number:" + String.valueOf(times[i].get(j)));
                             csvWriter.append(String.valueOf(times[i].get(j))  + ", ");
                         }
                         csvWriter.append("\n");
-                        i++;
+                        i++;    
+                        FileWriter distance_output = new FileWriter("../results/" + file_name + "/" + algorithm + "_"+ file.getName());
+                        if (method[run] == 'F') {
+                            floydWarshall.writeAdjacencyMatrix(distance_output);
+                        } else {
+                            johnson.writeAdjacencyMatrix(distance_output);
+                        }
+                        distance_output.close();
                     }
                     csvWriter.close();
-                            
+
                 } catch (IOException e) {
                     System.out.println("Error writing to CSV file: " + e.getMessage());
                 } catch (Exception e) {

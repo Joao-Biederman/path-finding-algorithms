@@ -1,31 +1,18 @@
 package algorithms;
 
-public class Johnson {
+public class Johnson implements AlgorithmInterface {
     private int adjacencyMatrix[][];
 
     public Johnson(int[][] adjacencyMatrix) {
         this.adjacencyMatrix = adjacencyMatrix;
     }
 
+    public int[][] getAdjacencyMatrix() {
+        return this.adjacencyMatrix;
+    }
+
     public void setAdjacencyMatrix(int[][] adjacencyMatrix) {
         this.adjacencyMatrix = adjacencyMatrix;
-    }
-
-    public void printAdjacencyMatrix() {
-        for (int i = 0; i < adjacencyMatrix.length; i++) {
-            for (int j = 0; j < adjacencyMatrix[i].length; j++) {
-                if (adjacencyMatrix[i][j] != Integer.MAX_VALUE) {
-                    System.out.printf("| %3d ", adjacencyMatrix[i][j]);
-                } else {
-                    System.out.print("| INF ");
-                }
-            }
-            System.out.println();
-        }
-    }
-
-    public int getDistance(int i, int j) {
-        return this.adjacencyMatrix[i][j];
     }
 
     public int iterate() {

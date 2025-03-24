@@ -1,33 +1,26 @@
 package algorithms;
 
-public class FloydWarshall {
+public class FloydWarshall implements AlgorithmInterface {
     private int adjacencyMatrix[][];
 
-    public FloydWarshall(int[][] adjacencyMatrix) { setAdjacencyMatrix(adjacencyMatrix); }
-
-    public void setAdjacencyMatrix(int[][] adjacencyMatrix) {
+    public FloydWarshall(int[][] adjacencyMatrix) {
         this.adjacencyMatrix = adjacencyMatrix;
-    }
-
-    public void printAdjacencyMatrix() {
-        for (int i = 0; i < adjacencyMatrix.length; i++) {
-            for (int j = 0; j < adjacencyMatrix[i].length; j++) {
-                if (adjacencyMatrix[i][j] != Integer.MAX_VALUE) {
-                    System.out.printf("| %3d ", adjacencyMatrix[i][j]);
-                } else {
-                    System.out.print("| INF ");
-                }
-            }
-            System.out.println();
-        }
     }
 
     public void setDistance(int i, int j, int distance) {
         adjacencyMatrix[i][j] = distance;
     }
 
-    public int getDistance(int i, int j) {
-        return adjacencyMatrix[i][j];
+    public int[][] getAdjacencyMatrix() {
+        return this.adjacencyMatrix;
+    }
+
+    public void setAdjacencyMatrix(int[][] adjacencyMatrix) {
+        this.adjacencyMatrix = adjacencyMatrix;
+    }
+
+    int getDistance(int i, int j) {
+        return this.adjacencyMatrix[i][j];
     }
 
     public int iterate() {
@@ -47,7 +40,8 @@ public class FloydWarshall {
 
         for (int i = 0; i < adjacencyMatrix.length; i++) {
             if (getDistance(i, i) < 0) {
-                return 1;
+                System.err.println("Error: Ciclo Negativo");
+                System.exit(0);
             }
         }
 
