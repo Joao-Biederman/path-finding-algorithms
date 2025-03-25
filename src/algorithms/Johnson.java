@@ -1,10 +1,26 @@
 package algorithms;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Johnson implements AlgorithmInterface {
     private int adjacencyMatrix[][];
+    private char mode;
+    List<int[]> edges = new ArrayList<>();
 
-    public Johnson(int[][] adjacencyMatrix) {
+
+    public Johnson(int[][] adjacencyMatrix, char mode) {
         this.adjacencyMatrix = adjacencyMatrix;
+        this.mode = mode;
+
+        for (int start = 0; start < adjacencyMatrix.length; start++) {
+            for (int end = 0; end < adjacencyMatrix.length; end++) {
+                
+                if (adjacencyMatrix[start][end] != Integer.MAX_VALUE) {
+                    edges.add(new int[]{start, end, adjacencyMatrix[start][end]});
+                }
+            }
+        }
     }
 
     public int[][] getAdjacencyMatrix() {
@@ -13,22 +29,19 @@ public class Johnson implements AlgorithmInterface {
 
     public void setAdjacencyMatrix(int[][] adjacencyMatrix) {
         this.adjacencyMatrix = adjacencyMatrix;
+        edges = new ArrayList<>();
+        for (int start = 0; start < adjacencyMatrix.length; start++) {
+            for (int end = 0; end < adjacencyMatrix.length; end++) {
+                
+                if (adjacencyMatrix[start][end] != Integer.MAX_VALUE) {
+                    edges.add(new int[]{start, end, adjacencyMatrix[start][end]});
+                }
+            }
+        }
     }
 
     public int iterate() {
-        int[][] newAdjacencyMatrix = new int[this.adjacencyMatrix.length+1][this.adjacencyMatrix.length+1];
-
-        for (int i = 0; i < adjacencyMatrix.length; i++) {
-            for (int j = 0; j < adjacencyMatrix[i].length; j++) {
-                newAdjacencyMatrix[i][j] = this.adjacencyMatrix[i][j];
-            }
-            newAdjacencyMatrix[this.adjacencyMatrix.length][i] = Integer.MAX_VALUE;
-        }
-
-        int[] h = BellmanFord.runBellmanFord(newAdjacencyMatrix, (newAdjacencyMatrix.length-1));
-        if (h == null) {
-            return 1;
-        }
+        int[] h = (mode == 'M') ? BellmanFord.runBellmanFordMatrix(adjacencyMatrix, adjacencyMatrix.length-1) : BellmanFord.runBellmanFordList(edges, adjacencyMatrix.length, adjacencyMatrix.length + 1);
 
         int[][] reweightedGraph = new int[this.adjacencyMatrix.length][this.adjacencyMatrix.length];
         for (int i = 0; i < this.adjacencyMatrix.length; i++) {

@@ -11,17 +11,29 @@ import algorithms.*;
 public class Main {
     private static final int EXECUTIONS = 11;
     public static void main(String[] args) {
-        int[] file_sizes = {10, 15, 20, 25, 50, 100, 500};
-        char[] method = {'F', 'J'};
+        int[] file_sizes = {10, 15, 20, 25, 50, 100, 500, 1000};
+        char[] method = {'L', 'J', 'F'};
 
         for (int run = 0; run < method.length; run++) {
             for (int folder_index = 0; folder_index < file_sizes.length; folder_index++) {
                 FloydWarshall floydWarshall = new FloydWarshall(new int[0][0]);
-                Johnson johnson = new Johnson((new int[0][0]));
+                Johnson johnson = new Johnson((new int[0][0]), (method[run] == 'J' ? 'M' : 'L'));
                 String file_name = "graph_" + String.valueOf(file_sizes[folder_index]);
                 File folder = new File("../inputs/"+file_name);
                 File[] files = folder.listFiles();
-                String algorithm = (method[run] == 'F' ? "Floyd_Warshal" : "Johnson") + "_";
+                String algorithm = "";
+                if (method[run] == 'F') {
+                    algorithm = "Floyd_Warshal";
+                }
+
+                if (method[run] == 'J') {
+                    algorithm = "JohnsonMatriz";
+                }
+
+                if (method[run] == 'L') {
+                    algorithm = "JohnsonLista";
+                }
+
                 try {
                     FileWriter csvWriter = new FileWriter("../results/" + algorithm + file_name + "_execution_times.csv");
                     MatrixReader matrixReader = new MatrixReader();
